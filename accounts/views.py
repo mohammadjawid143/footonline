@@ -1,0 +1,26 @@
+from django.shortcuts import render, redirect
+from django.http import HttpResponse
+from .forms import UserForm
+from .models import User
+from django.contrib import messages
+
+# Create your views here.
+def registerUser(request):
+    if request.method == 'POST':
+        form = UserForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.role = User.CUSTOMER
+            user.set_password(form.cleaned_data['password'])  # hash password
+            user.save()
+            messages.success(request,  'Your account has been registered Sucessfully!')
+            return redirect('registerUser')  # or another page
+        else:
+            print(form.errors)
+    else:
+        form = UserForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'accounts/registeruser.html', context)
