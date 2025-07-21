@@ -84,8 +84,7 @@ class UserProfile(models.Model):
     profile_picture = models.ImageField(upload_to='user/profile_pictures', blank=True, null=True)
     cover_photo = models.ImageField(upload_to='user/cover_photos', blank=True, null=True)
 
-    address_line_1 = models.CharField(max_length=50, blank=True, null=True)
-    address_line_2 = models.CharField(max_length=50, blank=True, null=True)
+    address = models.CharField(max_length=250, blank=True, null=True)
     country = models.CharField(max_length=15, blank=True, null=True)
     state = models.CharField(max_length=15, blank=True, null=True)
     city = models.CharField(max_length=15, blank=True, null=True)
@@ -99,7 +98,7 @@ class UserProfile(models.Model):
     modified_at = models.DateTimeField(auto_now=True)
 
 
-    def full_address(self):
-        return f'{self.address_line_1}, {self.address_line_2}'
+    # def full_address(self):
+    #     return f'{self.address_line_1}, {self.address_line_2}'
     def __str__(self):
         return self.user.email if self.user else "Unlinked profile"
